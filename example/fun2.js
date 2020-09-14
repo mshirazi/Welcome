@@ -1,13 +1,13 @@
 var scene = new THREE.Scene();
-      var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
-      var renderer = new THREE.WebGLRenderer();
-      renderer.setSize( window.innerWidth, window.innerHeight );
-      document.body.appendChild( renderer.domElement );
+var renderer = new THREE.WebGLRenderer();
+renderer.setSize( window.innerWidth, window.innerHeight );
+document.body.appendChild( renderer.domElement );
 
-      var loader = new THREE.GLTFLoader();
+var loader = new THREE.GLTFLoader();
 
-loader.load( 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/39255/ladybug.gltf', function ( gltf ) {
+loader.load( './brozy.glb', function ( gltf ) {
 
 	scene.add( gltf.scene );
 
@@ -16,14 +16,16 @@ loader.load( 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/39255/ladybug.gltf', 
 	console.error( error );
 
 } );
+	var light = new THREE.AmbientLight( 0x404040 ); // soft white light
+	scene.add( light );
 
-      camera.position.z = 5;
+	camera.position.z = 5;
 
-      var animate = function () {
-        requestAnimationFrame( animate );
+	var animate = function () {
+		requestAnimationFrame( animate );
 
-        renderer.render( scene, camera );
-      };
+		renderer.render( scene, camera );
+	};
 
-      animate();
+	animate();
 
