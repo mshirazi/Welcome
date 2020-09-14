@@ -2,11 +2,7 @@
 
 (function ($) {
 	$(document).ready(function(){
-		import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/build/three.module.js';
-		import {OrbitControls} from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/examples/jsm/controls/OrbitControls.js';
-		import {GLTFLoader} from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/examples/jsm/loaders/GLTFLoader.js';
-
-
+	
 	// hide .navbar first
 	$(".navbar").hide();
 	
