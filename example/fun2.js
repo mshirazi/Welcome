@@ -5,9 +5,9 @@ var scene = new THREE.Scene();
       renderer.setSize( window.innerWidth, window.innerHeight );
       document.body.appendChild( renderer.domElement );
 
-      var loader = new GLTFLoader();
+      var loader = new THREE.GLTFLoader();
 
-loader.load( './brozy.glb', function ( gltf ) {
+loader.load( 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/39255/ladybug.gltf', function ( gltf ) {
 
 	scene.add( gltf.scene );
 
