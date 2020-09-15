@@ -7,7 +7,7 @@ document.body.appendChild( renderer.domElement );
 
 var loader = new THREE.GLTFLoader();
 
-loader.load( './brozy.glb', function ( gltf ) {
+loader.load( './brozybig.glb', function ( gltf ) {
 
 	scene.add( gltf.scene );
 
