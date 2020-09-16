@@ -15,7 +15,7 @@ render();
 var scene = new THREE.Scene();
 
 var camera = new THREE.PerspectiveCamera( 80, window.innerWidth / window.innerHeight, 0.1, 800 );
-camera.position.set(10000,0,0);
+camera.position.set(0,0,0);
 
 var renderer = new THREE.WebGLRenderer( { antialias: true } );
 renderer.setPixelRatio( window.devicePixelRatio );
@@ -77,7 +77,7 @@ scene.add( axesHelper );
 
 var loader = new THREE.GLTFLoader();
 loader.crossOrigin = true;
-loader.load( 'https://mshirazi.github.io/Welcome/example/brozyfixed4.glb', function ( data ) {
+loader.load( 'https://mshirazi.github.io/Welcome/example/brozyfixed.glb', function ( data ) {
 
   
     var object = data.scene;
