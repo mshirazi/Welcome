@@ -77,7 +77,7 @@ scene.add( axesHelper );
 
 var loader = new THREE.GLTFLoader();
 loader.crossOrigin = true;
-loader.load( 'https://mshirazi.github.io/Welcome/example/brozyfixed3.glb', function ( data ) {
+loader.load( 'https://mshirazi.github.io/Welcome/example/brozyfixed4.glb', function ( data ) {
 
   
     var object = data.scene;
