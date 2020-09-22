@@ -17,8 +17,12 @@ var scene = new THREE.Scene();
 
 var camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 2000 );
 camera.position.setFromSphericalCoords(200, Math.PI/2, Math.PI);
-
-var renderer = new THREE.WebGLRenderer( { antialias: true } );
+const canvas = document.querySelector('#c');
+var renderer = new THREE.WebGLRenderer( {
+	canvas,
+	alpha: true,
+	antialias: true,
+} );
 renderer.setPixelRatio( window.devicePixelRatio );
 renderer.setSize( window.innerWidth, window.innerHeight );
 renderer.setClearColor( backgroundColor );//0x );
