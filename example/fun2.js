@@ -68,13 +68,18 @@ scene.add( axesHelper );
 */
 
 //import model using three.js GLTF loader
-import { DRACOLoader } from 'https://mshirazi.github.io/Welcome/example/node_modules/three/examples/js/libs/draco/';
 
-var loader = new THREE.DRACOLoader();
+var loader = new THREE.GLTFLoader();
+var dracoloader = new THREE.DRACOLoader();
+
+dracoloader.setDecoderPath( 'https://unpkg.com/three@0.120.1/examples/js/libs/draco/' )
+loader.setDRACOLoader( dracoloader );
+
+//loader.setDecoderPath( 'https://unpkg.com/three@0.120.1/examples/js/libs/draco/' );
 loader.crossOrigin = true;
 
 var object = null;
-loader.load( 'https://mshirazi.github.io/Welcome/example/bronze.glb', function ( data ) {
+loader.load( 'https://mshirazi.github.io/Welcome/example/compressed.glb', function ( data ) {
     object = data.scene;
     object.position.set(0, 0, 0);
     camera.lookAt(0, 0, 0);
@@ -94,7 +99,6 @@ function onMouseMove(event) {
 	// coordinates are clearly the best choice for this kind of motion
 	camera.position.setFromSphericalCoords(200, Math.PI/2,2* Math.PI * event.clientX / window.innerWidth);
 	camera.lookAt(0, 0, 0);
-	controls.update();
 }
 
 /* ////////////////////////////////////////////////////////////////////// */
