@@ -68,7 +68,7 @@ scene.add( axesHelper );
 */
 
 //import model using three.js GLTF loader
-import { DRACOLoader } from './node_modules/three/examples/js/libs/draco/';
+import { DRACOLoader } from 'https://mshirazi.github.io/Welcome/example/node_modules/three/examples/js/libs/draco/';
 
 var loader = new THREE.DRACOLoader();
 loader.crossOrigin = true;
