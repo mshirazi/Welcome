@@ -1,5 +1,5 @@
 
-const backgroundColor = 0x000000;
+//const backgroundColor = 0x000000;
 
 /*////////////////////////////////////////*/
 
@@ -25,7 +25,7 @@ var renderer = new THREE.WebGLRenderer( {
 } );
 renderer.setPixelRatio( window.devicePixelRatio );
 renderer.setSize( window.innerWidth, window.innerHeight );
-renderer.setClearColor( backgroundColor );//0x );
+//renderer.setClearColor( backgroundColor );//0x );
 
 renderer.toneMapping = THREE.LinearToneMapping;
 renderer.toneMappingExposure = Math.pow( 0.94, 5.0 );
