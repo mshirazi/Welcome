@@ -14,17 +14,18 @@ render();
 // set up scene
 
 var scene = new THREE.Scene();
-
-var camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 2000 );
-camera.position.setFromSphericalCoords(200, Math.PI/2, Math.PI);
 const canvas = document.querySelector('#c');
+
+var camera = new THREE.PerspectiveCamera( 45, canvas.clientWidth / canvas.clientHeight, 0.1, 2000 );
+camera.position.setFromSphericalCoords(200, Math.PI/2, Math.PI);
 var renderer = new THREE.WebGLRenderer( {
 	canvas,
 	alpha: true,
 	antialias: true,
 } );
-renderer.setPixelRatio( window.devicePixelRatio );
-renderer.setSize( window.innerWidth, window.innerHeight );
+renderer.setClearColor(0xffffff, 0);
+//renderer.setPixelRatio( window.devicePixelRatio );
+renderer.setSize( canvas.clientWidth, canvas.clientHeight );
 //renderer.setClearColor( backgroundColor );//0x );
 
 renderer.toneMapping = THREE.LinearToneMapping;
@@ -32,10 +33,12 @@ renderer.toneMappingExposure = Math.pow( 0.94, 5.0 );
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFShadowMap;
 
+/*update when aspect ratio and size changes */
+
 window.addEventListener( 'resize', function () {
-  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.aspect = canvas.clientWidth / canvas.clientHeight;
   camera.updateProjectionMatrix();
-  renderer.setSize( window.innerWidth, window.innerHeight );
+  renderer.setSize( canvas.clientWidth, canvas.clientHeight);
 }, false );
 
 document.body.appendChild( renderer.domElement);
@@ -97,7 +100,7 @@ function onMouseMove(event) {
 	// honestly I trialed and errored the formula for the camera's movement, since I couldn't find documentation
 	// on whether three.js uses the physicist or the mathematician's spherical coordinates, but spherical
 	// coordinates are clearly the best choice for this kind of motion
-	camera.position.setFromSphericalCoords(200, Math.PI/2,2* Math.PI * event.clientX / window.innerWidth);
+	camera.position.setFromSphericalCoords(200, Math.PI/2,2* Math.PI * event.clientX / canvas.clientWidth);
 	camera.lookAt(0, 0, 0);
 }
 
