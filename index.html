@@ -30,7 +30,12 @@
       </ul>
     </div>
   </nav>
-  <canvas id="c"></canvas>
+  <canvas id="c">
+  	<div class="row justify-content-center loader">
+      <h1 class="text-light mx-5">Madison Shirazi</h1>
+  </div>
+</canvas>
+  
       <script src="https://unpkg.com/three@0.120.1/build/three.js"></script>
   <script src='https://unpkg.com/three@0.120.1/examples/js/loaders/GLTFLoader.js'></script>
   <script src='https://unpkg.com/three@0.120.1/examples/js/loaders/DRACOLoader.js'></script>
@@ -71,11 +76,11 @@
   <br />
   <div class="d-flex justify-content-center">
   <ul>
-  <li class="ml-5"><h2 class="text-light"><a href='https://www.thecrimson.com/writer/1215535/Madison_A._Shirazi/' class="content">The Crimson</a></h2></li>
-  <li class="ml-5"><h2 class="text-light"><a href='https://www.theharvardshop.com/' class="content">Harvard Student Agencies</a></h2></li>
-  <li class="ml-5"><h2 class="text-light"><a href='#' class="content">The Zeckendorf Project</a></h2></li>
-  <li class="ml-5"><h2 class="text-light"><a href='https://www.youtube.com/watch?v=e_LVaiP7b3s&ab_channel=MadiS.' class="content">Knotting Vizualisation</a></h2></li>
-  <li class="ml-5"><h2 class="text-light"><a href='https://www.youtube.com/watch?v=12IznzV0kIg&t=3s&ab_channel=MadiS.' class="content">PS70</a></h2></li>
+  <li class="ml-5"><h2 class="text-light"><a href='./crimson.html' class="content" target="_blank">The Crimson</a></h2></li>
+  <li class="ml-5"><h2 class="text-light"><a href='https://www.theharvardshop.com/' class="content" target="_blank">Harvard Student Agencies</a></h2></li>
+  <li class="ml-5"><h2 class="text-light"><a href='./zecky.html' class="content" target="_blank">The Zeckendorf Project</a></h2></li>
+  <li class="ml-5"><h2 class="text-light"><a href='https://www.youtube.com/watch?v=e_LVaiP7b3s&ab_channel=MadiS.' class="content" target="_blank">Knot Visualization</a></h2></li>
+  <li class="ml-5"><h2 class="text-light"><a href='https://mshirazi.github.io/PHYSCI-70/' class="content" target="_blank">PS70</a></h2></li>
 </ul>
 </div>
 <br />
@@ -87,5 +92,14 @@
 <br />
 <br />
 <br />
+<script type="text/javascript">
+	document.onreadystatechange = function() { 
+    if (document.readyState !== "complete") { 
+        document.querySelector("#loader").style.visibility = "visible"; 
+    } else { 
+        document.querySelector("#loader").style.display = "none"; 
+    } 
+}; 
+</script>
 </body>
 </html>

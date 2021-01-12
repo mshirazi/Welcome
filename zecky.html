@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>HELP</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <script src="fun.js"></script>
+
+  <link href="./pagestyle.css" rel="stylesheet">
+</head>
+<body>
+  <!-- nav bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="#">Madison Shirazi</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="./index.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./index.html#work">Work</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <br />
+  <br />
+  <div class="row justify-content-center">
+    <div class="col-8">
+      <h1 class="mx-5">The Zeckendorf Project was a Python-based game theory visualization problem. The goal was to model a basic Fibonnaci game, where each player's move mimics a Fibonnaci move. A player can 'split' two tokens or 'join' two consecutive tokens, and the first player with no more moves loses. This game has a proven winning strategy, but the proof is not constructive.</h1>
+    </div>
+  </div>
+  <br />
+  <br />
+  <div class="row justify-content-center">
+    <div class="col-8">
+      <h1 class="mx-5">Visualizations</h1>
+    </div>
+  </div>
+  <br />
+  <div class="row justify-content-center">
+      <div class="col-2">
+        <img width="100%" src="./zecky/0.png">
+      </div>
+      <div class="col-2">
+        <img width="100%" src="./zecky/1.png">
+      </div>
+      <div class="col-2">
+        <img width="100%" src="./zecky/2.png">
+      </div>
+      <div class="col-2">
+        <img width="100%" src="./zecky/3.png">
+      </div>
+      <div class="col-2">
+        <img width="100%" src="./zecky/4.png">
+      </div>
+  </div>
+  <div class="row justify-content-center">
+      <div class="col-2">
+        <img width="100%" src="./zecky/5.png">
+      </div>
+      <div class="col-2">
+        <img width="100%" src="./zecky/6.png">
+      </div>
+      <div class="col-2">
+        <img width="100%" src="./zecky/7.png">
+      </div>
+      <div class="col-2">
+        <img width="100%" src="./zecky/8.png">
+      </div>
+  </div>
+  <div class="row justify-content-center">
+      <div class="col-2">
+        <img width="100%" src="./zecky/9.png">
+      </div>
+      <div class="col-2">
+        <img width="100%" src="./zecky/10.png">
+      </div>
+      <div class="col-2">
+        <img width="100%" src="./zecky/11.png">
+      </div>
+      <div class="col-2">
+        <img width="100%" src="./zecky/12.png">
+      </div>
+  </div>
+
+
+  <div class="row justify-content-center">
+    <div class="col-8">
+      <h1 class="mx-5">Code</h1>
+    </div>
+  </div>
+  <br />
+  <div class="row justify-content-center">
+    <div class="col-8">
+  <pre class="prettyprint lang-python linenums">
+import networkx as nx
+import matplotlib.pyplot as plt
+from networkx.drawing.nx_agraph import graphviz_layout, to_agraph
+import pygraphviz as pgv
+from functools import lru_cache
+
+
+#the game has 4 moves
+#move 1: move two 1s to a 2
+def ones(gamestate):
+  gamestate[0] -= 2
+  if len(gamestate) == 1:
+    gamestate.append(1)
+  else:
+    gamestate[1] += 1
+  return gamestate
+
+#move 2: move two 2s to a one and a 3
+def twos(gamestate):
+  gamestate[1] -= 2
+  gamestate[0] += 1
+  if len(gamestate) == 2:
+    gamestate.append(1)
+  else:
+    gamestate[2] += 1
+  return gamestate
+
+#move 1/2/3: split any two, place given counting from 0
+def split(gamestate, place):
+  if place == 0:
+    return ones(gamestate)
+  elif place == 1:
+    return twos(gamestate)
+  else:
+    gamestate[place] -= 2
+    gamestate[place - 2] += 1
+    if len(gamestate) == place + 1:
+      gamestate.append(1)
+    else:
+      gamestate[place+1] += 1
+  return gamestate
+
+#move 4: combine two consective 1s to a one, place of second given counting from 0
+def join(gamestate, place):
+  gamestate[place-1] -= 1
+  gamestate[place] -= 1
+  if len(gamestate) == place + 1:
+    gamestate.append(1)
+  else:
+    gamestate[place+1] += 1
+  return gamestate
+
+#determine which moves are possible: will return a list of which of the moves are possible and their places
+#split is 0 and join is 1
+def analyze(gamestate):
+  prev = 0
+  options = []
+  for index in range(len(gamestate)):
+    entry = gamestate[index]
+    if entry >= 2:
+      options.append([0, index])
+    if entry >= 1 and prev >= 1:
+      options.append([1, index])
+    prev = entry
+  return options
+
+#play with the output from analyze
+def play(move, gamestate):
+  if move[0] == 0:
+    gamestate = split(gamestate, move[1])
+  elif move[0] == 1:
+    gamestate = join(gamestate, move[1])
+  return gamestate
+
+#play the game
+def gameplay(number):
+  #set up initial state and gameplay dictionary
+  initial_state = [number]
+  game = {tuple(initial_state) : []}
+  index = 0
+  end = False
+  #start up game iteration
+  while end == False:
+    #not iterating through keys because dictionary is changing, relying on ordered dict in py 3.8
+    key = list(game.keys())[index]
+    #go through each possible move from current state
+    for move in analyze(list(key)):
+      result = play(move, list(key))
+      #create arrow from current state to result
+      game[tuple(key)].append(tuple(result))
+      #check if result is in the dict, if not, add it
+      if tuple(result) not in game:
+        game[tuple(result)] = []
+    #check to see if we've arrived at the last element of the dict
+    if key == list(game.keys())[-1]:
+      end = True
+    index += 1
+  return game
+
+#generates the nodes and the edges
+def generategraph(number):
+  game = gameplay(number)
+  nodes = list(game.keys())
+  edges = []
+  for node in nodes:
+    for value in game[node]:
+      edges.append((node, value, {"color":"grey"}))
+  edges = tuple(edges)
+  #returns nodes as a list of tuples and edges as a tuple of lists
+  return nodes, edges
+
+#to initialize the colors. maybe possible to do it directly with some sort of cross product between lists?
+def colorwithblanks(nodes):
+  for i in range(len(nodes)):
+    nodes[i] = (nodes[i], {"fillcolor": -1})
+  return nodes
+
+#draw using matplotlib
+def olddrawgraph(number):
+  nodes, edges = generategraph(number)
+  DG = nx.DiGraph()
+  DG.add_nodes_from(colorwithblanks(nodes),style='filled')
+  DG.add_edges_from(edges)
+  plt.subplot(121)
+  nx.draw(DG, with_labels=True, font_weight='bold')
+  plt.subplot(122)
+  plt.show()
+  return DG
+
+#draw using pygraphviz (a lot prettier than drawgraph!!)
+#produces a png in the directory
+def drawgraph(number):
+  nodes, edges = generategraph(number)
+  G = nx.DiGraph()
+  G.add_nodes_from(colorwithblanks(nodes),style='filled')
+  G.add_edges_from(edges)
+  G.graph['graph']={'rankdir':'TD'}
+  G.graph['node']={'shape':'circle'}
+  G.graph['edges']={'arrowsize':'4.0'}
+  G, anals = colornodes(G, 1)
+  G = coloredges(G, list(G.nodes)[0])
+  wins = findwinningstates(G, 1)
+  #print('there are '+  str(len(wins)) + ' winning states which are ' + str(wins))
+  #print(str(number) + " " + str(anals))
+  print(str(number) + ':' + str(len(wins)))
+  #A = to_agraph(G)
+  #A.layout('dot')
+  #A.draw('./further/' + str(number) + '.png')
+
+#colors graph by going through each node and calling colorr, then changes the number to a color. Also makes a summary list.
+#should consider making a dict with the nimbers as keys and the states as values.
+def colornodes(G, h):
+  nims = [0, 0, 0, 0, 0, 0, 0]
+  for n in list(G.nodes):
+    colors = ["grey", "yellow", "green", "pink", "red", "blue", "black"]
+    #nims[G.nodes[n]['fillcolor']] += 1
+    nim = findnimber(G, n)
+    nims[nim] += 1
+    G.nodes[n]['fillcolor'] = colors[nim]
+  return G, nims
+
+
+#returns the Nimber of a node in a graph, hopefully not too inefficient w/ the lru cache?
+@lru_cache(maxsize=50)
+def findnimber(G, n):
+  vals = [False, False, False, False, False, False, False]
+  if any(G.successors(n)) == False:
+    return 0
+  else:
+    for succ in G.successors(n):
+      if G.nodes[succ]['fillcolor'] != -1:
+        colr = int(G.nodes[succ]['fillcolor'])
+        vals[colr] = True
+      else:
+        colr = findnimber(G, succ)
+        G.nodes[succ]['fillcolor'] = colr
+        vals[colr] = True
+    for i in range(len(vals)):
+      if vals[i] == False:
+        return i
+        break
+
+#color all of the edges that are along a winning path red
+def edgecoloring(G, rootnode):
+  edges_to_color = []
+  if any(G.successors(rootnode)) == False:
+    return
+  else:
+    for succ in G.successors(rootnode):
+      for postsucc in G.successors(succ):
+        if G.nodes[postsucc]['fillcolor'] == "grey":
+          edges_to_color.append([succ, postsucc])
+          edges_to_color.append([rootnode, succ])
+          bob = edgecoloring(G, postsucc)
+          if bob != None:
+            for edgetocolor in bob:
+              edges_to_color.append(edgetocolor)
+    return edges_to_color
+
+def coloredges(G, rootnode):
+  edges_to_color = edgecoloring(G, rootnode)
+  #print(rootnode)
+  #print(edges_to_color)
+  if edges_to_color != None:
+    for selectedge in edges_to_color:
+      #print(selectedge)
+      G.edges[tuple(selectedge)]['color'] = 'red'
+  return G
+
+def findwinningstates(G, n):
+  wins = []
+  for node in list(G.nodes):
+    if G.nodes[node]['fillcolor'] == 'grey':
+      if len(G.out_edges(node)) != 0:
+        iswinningstate = False
+        for edge in G.out_edges(node):
+          if G.edges[edge]['color'] == 'red':
+            iswinningstate = True
+        if iswinningstate == True:
+          wins.append(node)
+      else:
+        #print(str(node))
+        wins.append(node)
+  return wins
+
+  </pre>
+</div>
+</div>
+  <br />
+  <br />
+  <br />
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?lang=python&amp;skin=sons-of-obsidian"></script>
+
+</body>
+</html>
